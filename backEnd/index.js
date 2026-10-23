@@ -24,7 +24,22 @@ app.set("trust proxy", parseTrustProxy(process.env.TRUST_PROXY));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+
+const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173,http://127.0.0.1:5173")
+  .split(",")
+  .map((origin) => origin.trim().replace(/\/+$/, ""))
+  .filter(Boolean);
+
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+    callback(new Error("Origin is not allowed by CORS"));
+  },
+  credentials: true,
+}));
 // Only profile photos are public. Users' PDFs (uploads/rag) are NOT served
 // here; they are only reachable through GET /api/rag/documents/:id/file,
 // which checks that the document belongs to the logged-in user.
