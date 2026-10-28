@@ -1,0 +1,8 @@
+{
+  "name": "evangadi-forum-monorepo",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm --prefix backEnd install",
+    "start": "npm --prefix backEnd start"
+  }
+}
