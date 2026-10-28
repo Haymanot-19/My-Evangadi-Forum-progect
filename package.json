@@ -1,6 +1,11 @@
 {
   "name": "evangadi-forum-monorepo",
   "private": true,
+  "main": "backEnd/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {},
   "scripts": {
     "postinstall": "npm --prefix backEnd install",
     "start": "npm --prefix backEnd start"
